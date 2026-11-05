@@ -1,5 +1,231 @@
-<!-- The background music player (No 'loop' attribute!) -->
+<head>
+  <meta charset="UTF-8">
+  <title>Dragon Tongue Fieldwork</title>
+
+  <!-- Google Fonts: Medieval & Gothic Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=MedievalSharp&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+
+
+<!-- 1. LANDING SCREEN -->
+<div id="landing-screen" class="overlay">
+  <div class="landing-content">
+    <h1>The Archival Project</h1>
+    <h2>Dragon Tongue Fieldwork Simulator</h2>
+    <p class="mission-brief">
+      Welcome, Field Archivist. Transcribe and preserve the phonetic nuances of the ancient Draconic dialect.
+    </p>
+    <button id="start-btn" onclick="goToNamingScreen()">Begin Transcription</button>
+  </div>
+</div>
+
+<!-- 2. DRAGON NAMING SCREEN (NEW) -->
+<div id="dragon-naming-screen" class="overlay hidden">
+  <div class="naming-content">
+    <h2>Subject Identification</h2>
+    <p class="instruction-text">
+      Before commencing fieldwork, assign an official IPA name to your assigned dragon specimen:
+    </p>
+
+    <!-- Name Input Display -->
+    <div class="dragon-name-display">
+      <span class="label">Dragon IPA Name:</span>
+      <input type="text" id="dragon-ipa-input" placeholder="e.g. χaɬ" readonly>
+    </div>
+
+    <!-- Quick IPA Character Bank for Naming -->
+    <div class="naming-ipa-bank">
+      <button class="key draconic" onclick="insertNamingIPA('χ')">χ</button>
+      <button class="key draconic" onclick="insertNamingIPA('ɬ')">ɬ</button>
+      <button class="key draconic" onclick="insertNamingIPA('qʼ')">qʼ</button>
+      <button class="key draconic" onclick="insertNamingIPA('tsʼ')">tsʼ</button>
+      <button class="key draconic" onclick="insertNamingIPA('tɬʼ')">tɬʼ</button>
+      <button class="key draconic" onclick="insertNamingIPA('ʁ')">ʁ</button>
+      <button class="key vowel" onclick="insertNamingIPA('a')">a</button>
+      <button class="key vowel" onclick="insertNamingIPA('i')">i</button>
+      <button class="key vowel" onclick="insertNamingIPA('u')">u</button>
+      <button class="picker-btn" onclick="clearNamingInput()">Clear</button>
+    </div>
+
+    <button id="confirm-dragon-btn" onclick="confirmDragonName()">Confirm Subject & Enter Archive</button>
+  </div>
+</div>
+
+<!-- Header Bar inside #game-screen -->
+<header class="archive-header-bar">
+  <div class="subject-info">
+    <span class="status-tag">ACTIVE SPECIMEN</span>
+    <h2 id="display-dragon-name">/χaɬ/</h2>
+  </div>
+
+  <!-- Updated Grimoire Button -->
+  <button id="grimoire-btn" class="archive-nav-btn" onclick="openGrimoire()">
+    📜 Phonetic Grimoire
+  </button>
+</header>
+
+<!-- PHONETIC GRIMOIRE MODAL -->
+<div id="grimoire-modal" class="modal-overlay hidden">
+  <div class="grimoire-content">
+    <div class="grimoire-header">
+      <h2>📜 Phonetic Grimoire & Lexicon Guide</h2>
+      <button class="close-modal-btn" onclick="closeGrimoire()">✕</button>
+    </div>
+    <div class="grimoire-body">
+      <h3>Draconic Consonant Rules</h3>
+      <p>Pay close attention to throat-heavy uvular stops (<strong>q</strong>) and lateral fricatives (<strong>ɬ</strong>). Ejectives are marked with an apostrophe modifier (<strong>ʼ</strong>).</p>
+      
+      <h3>IPA Symbol Key</h3>
+      <ul class="symbol-guide-list">
+        <li><code>χ</code> — Voiceless Uvular Fricative (Deep rasp from back of throat)</li>
+        <li><code>ɬ</code> — Voiceless Alveolar Lateral Fricative (Hissing side-tongue airflow)</li>
+        <li><code>tsʼ</code> — Ejective Affricate (Sharp burst of pressurized air)</li>
+        <li><code>qʼ</code> — Ejective Uvular Stop (Deep glottalic pop)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="r12a-picker-container">
+  <!-- Top Control & Text Buffer -->
+  <div class="picker-output">
+    <input type="text" id="ipa-input" placeholder="Click symbols to transcribe..." readonly>
+    <div class="buffer-controls">
+      <button class="picker-btn" onclick="backspaceInput()">⌫ Backspace</button>
+      <button class="picker-btn" onclick="clearInput()">Clear</button>
+    </div>
+  </div>
+
+  <div class="picker-grids">
+    <!-- Pulmonic Consonants Chart (Manner vs Place) -->
+    <div class="picker-section">
+      <h3>Pulmonic Consonants</h3>
+      <div class="ipa-chart-grid pulmonic-grid">
+        <!-- Header Row: Place of Articulation -->
+        <div class="grid-header">Manner</div>
+        <div class="grid-header">Labial</div>
+        <div class="grid-header">Dental/Alveolar</div>
+        <div class="grid-header">Palatal/Post.</div>
+        <div class="grid-header">Velar</div>
+        <div class="grid-header">Uvular</div>
+        <div class="grid-header">Glottal</div>
+
+        <!-- Row 1: Plosives -->
+        <div class="row-label">Plosive</div>
+        <div class="cell"><button class="key" onclick="insertIPA('p')">p</button><button class="key" onclick="insertIPA('b')">b</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('t')">t</button><button class="key" onclick="insertIPA('d')">d</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('c')">c</button><button class="key" onclick="insertIPA('ɟ')">ɟ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('k')">k</button><button class="key" onclick="insertIPA('g')">g</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('q')">q</button><button class="key" onclick="insertIPA('ɢ')">ɢ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ʔ')">ʔ</button></div>
+
+        <!-- Row 2: Fricatives -->
+        <div class="row-label">Fricative</div>
+        <div class="cell"><button class="key" onclick="insertIPA('f')">f</button><button class="key" onclick="insertIPA('v')">v</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('θ')">θ</button><button class="key" onclick="insertIPA('ð')">ð</button><button class="key" onclick="insertIPA('s')">s</button><button class="key" onclick="insertIPA('z')">z</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ʃ')">ʃ</button><button class="key" onclick="insertIPA('ʒ')">ʒ</button><button class="key" onclick="insertIPA('ç')">ç</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('x')">x</button><button class="key" onclick="insertIPA('ɣ')">ɣ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('χ')">χ</button><button class="key" onclick="insertIPA('ʁ')">ʁ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('h')">h</button><button class="key" onclick="insertIPA('ɦ')">ɦ</button></div>
+
+        <!-- Row 3: Laterals & Affricates -->
+        <div class="row-label">Lateral/Aff.</div>
+        <div class="cell"></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ɬ')">ɬ</button><button class="key" onclick="insertIPA('ɮ')">ɮ</button><button class="key" onclick="insertIPA('l')">l</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('tʃ')">tʃ</button><button class="key" onclick="insertIPA('dʒ')">dʒ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('tɬ')">tɬ</button></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+
+        <!-- Row 4: Nasals & Approximants -->
+        <div class="row-label">Nasal/App.</div>
+        <div class="cell"><button class="key" onclick="insertIPA('m')">m</button><button class="key" onclick="insertIPA('w')">w</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('n')">n</button><button class="key" onclick="insertIPA('r')">r</button><button class="key" onclick="insertIPA('ɾ')">ɾ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ɲ')">ɲ</button><button class="key" onclick="insertIPA('j')">j</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ŋ')">ŋ</button></div>
+        <div class="cell"><button class="key" onclick="insertIPA('ɴ')">ɴ</button></div>
+        <div class="cell"></div>
+      </div>
+    </div>
+
+    <div class="picker-sidebar">
+      <!-- Non-Pulmonic & Ejectives -->
+      <div class="picker-section">
+        <h3>Non-Pulmonic & Ejectives</h3>
+        <div class="symbol-bank">
+          <button class="key modifier" onclick="insertIPA('ʼ')">ʼ <small>ejective</small></button>
+          <button class="key" onclick="insertIPA('pʼ')">pʼ</button>
+          <button class="key" onclick="insertIPA('tʼ')">tʼ</button>
+          <button class="key" onclick="insertIPA('kʼ')">kʼ</button>
+          <button class="key" onclick="insertIPA('qʼ')">qʼ</button>
+          <button class="key" onclick="insertIPA('tsʼ')">tsʼ</button>
+          <button class="key" onclick="insertIPA('tɬʼ')">tɬʼ</button>
+          <button class="key" onclick="insertIPA('tʃʼ')">tʃʼ</button>
+        </div>
+      </div>
+
+      <!-- Vowels Grid -->
+      <div class="picker-section">
+        <h3>Vowels</h3>
+        <div class="vowel-grid">
+          <div class="vowel-row">
+            <span class="v-label">Close</span>
+            <button class="key vowel" onclick="insertIPA('i')">i</button>
+            <button class="key vowel" onclick="insertIPA('y')">y</button>
+            <button class="key vowel" onclick="insertIPA('ɨ')">ɨ</button>
+            <button class="key vowel" onclick="insertIPA('u')">u</button>
+          </div>
+          <div class="vowel-row">
+            <span class="v-label">Mid</span>
+            <button class="key vowel" onclick="insertIPA('e')">e</button>
+            <button class="key vowel" onclick="insertIPA('ø')">ø</button>
+            <button class="key vowel" onclick="insertIPA('ə')">ə</button>
+            <button class="key vowel" onclick="insertIPA('o')">o</button>
+          </div>
+          <div class="vowel-row">
+            <span class="v-label">Open</span>
+            <button class="key vowel" onclick="insertIPA('æ')">æ</button>
+            <button class="key vowel" onclick="insertIPA('a')">a</button>
+            <button class="key vowel" onclick="insertIPA('ɑ')">ɑ</button>
+            <button class="key vowel" onclick="insertIPA('ɒ')">ɒ</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suprasegmentals & Diacritics -->
+      <div class="picker-section">
+        <h3>Diacritics & Suprasegmentals</h3>
+        <div class="symbol-bank">
+          <button class="key" onclick="insertIPA('ˈ')">ˈ <small>stress</small></button>
+          <button class="key" onclick="insertIPA('ː')">ː <small>long</small></button>
+          <button class="key" onclick="insertIPA('ˑ')">ˑ <small>half-long</small></button>
+          <button class="key" onclick="insertIPA('͡')">͡ <small>tie</small></button>
+          <button class="key" onclick="insertIPA('ˤ')">ˤ <small>pharyngealized</small></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button id="submit-transcription-btn" onclick="verifyTranscription()">Submit Record</button>
+</div>
+
+
+
+
+<!-- Hidden background music player -->
 <audio id="bg-music"></audio>
 
-<!-- The button to start the game and the music -->
-<button id="start-btn" onclick="startMusic()">Start Game</button>
+<link rel="stylesheet" href="style.css"></link>
+<body>
+<!-- This must be spelled exactly like your javascript file -->
+  <script src="script.js"></script>
+</body>
+

@@ -1,0 +1,492 @@
+h1 {
+  font-family: 'UnifrakturMaguntia', cursive;
+  font-size: 3rem;
+}
+
+h2 {
+  font-family: 'Cinzel', serif;
+  letter-spacing: 2px;
+}
+
+
+/* Dark, atmospheric landing screen styling */
+
+body {
+  margin: 0;
+  background-color: #121212;
+  color: #e0e0e0;
+  font-family: 'MedievalSharp', cursive;
+  cursor: cell; /* Alternative built-in precision crosshair cursor */
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #0a0a0c;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  z-index: 100;
+  transition: opacity 0.8s ease-out;
+}
+
+.landing-content {
+  max-width: 600px;
+  padding: 40px;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background-color: #141418;
+}
+
+.mission-brief {
+  line-height: 1.6;
+  color: #a0a0a0;
+  margin: 20px 0 30px 0;
+}
+
+#start-btn {
+  background-color: #8b0000; /* Deep crimson button */
+  color: #ffffff;
+  border: none;
+  padding: 14px 28px;
+  font-size: 1.1rem;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+#start-btn:hover {
+  background-color: #b22222;
+}
+
+/* Helper class to hide/show screens */
+.hidden {
+  display: none !important;
+}
+
+
+
+
+.r12a-picker-container {
+  max-width: 950px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #16161a;
+  border: 1px solid #2a2a32;
+  border-radius: 6px;
+  color: #d0d0d0;
+  font-family: Arial, sans-serif;
+}
+
+/* Output Header */
+.picker-output {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+#ipa-input {
+  flex: 1;
+  background-color: #0b0b0e;
+  border: 1px solid #3a3a48;
+  color: #e5c158; /* Parchment Gold */
+  font-family: 'Charis SIL', 'Doulos SIL', 'Lucida Sans Unicode', sans-serif;
+  font-size: 1.6rem;
+  padding: 8px 14px;
+  border-radius: 4px;
+}
+
+.picker-btn {
+  background-color: #262632;
+  color: #ccc;
+  border: 1px solid #3a3a48;
+  padding: 0 14px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.picker-btn:hover {
+  background-color: #343444;
+}
+
+/* Grids Layout */
+.picker-grids {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 16px;
+}
+
+.picker-section {
+  background-color: #1e1e24;
+  border: 1px solid #2c2c36;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 12px;
+}
+
+.picker-section h3 {
+  margin: 0 0 8px 0;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #888899;
+  letter-spacing: 1px;
+}
+
+/* Pulmonic Table Grid */
+.ipa-chart-grid {
+  display: grid;
+  grid-template-columns: 90px repeat(6, 1fr);
+  gap: 2px;
+  background-color: #2a2a34;
+  border: 1px solid #2a2a34;
+}
+
+.grid-header {
+  background-color: #121216;
+  font-size: 0.7rem;
+  color: #aaa;
+  padding: 6px 2px;
+  text-align: center;
+  font-weight: bold;
+}
+
+.row-label {
+  background-color: #121216;
+  font-size: 0.7rem;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+}
+
+.cell {
+  background-color: #1a1a20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 38px;
+}
+
+/* Keys */
+.key {
+  background-color: #252530;
+  border: 1px solid #353545;
+  color: #fff;
+  font-family: 'Charis SIL', 'Doulos SIL', 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  padding: 4px 8px;
+  border-radius: 3px;
+  cursor: pointer;
+  min-width: 28px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.key:hover {
+  background-color: #38384a;
+  border-color: #555570;
+}
+
+.key.vowel {
+  background-color: #1c2636;
+  border-color: #2a3a52;
+}
+
+.key.vowel:hover {
+  background-color: #26364d;
+}
+
+.key.modifier {
+  background-color: #36221c;
+  border-color: #52332a;
+}
+
+.symbol-bank {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.symbol-bank .key small {
+  font-size: 0.6rem;
+  color: #888;
+  margin-left: 3px;
+}
+
+/* Vowels Layout */
+.vowel-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.vowel-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.v-label {
+  font-size: 0.75rem;
+  color: #888;
+  width: 45px;
+}
+
+#submit-transcription-btn {
+  width: 100%;
+  margin-top: 10px;
+  padding: 12px;
+  background-color: #8b0000;
+  color: #fff;
+  border: none;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#submit-transcription-btn:hover {
+  background-color: #a50000;
+}
+
+
+
+
+/* Make keys and buttons display a distinct pointer cursor */
+button {
+  cursor: pointer;
+}
+
+
+
+.naming-content {
+  max-width: 650px;
+  width: 90%;
+  padding: 36px;
+  background-color: #141418;
+  border: 1px solid #333340;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7);
+}
+
+.instruction-text {
+  color: #a0a0b0;
+  margin-bottom: 24px;
+}
+
+.dragon-name-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.dragon-name-display .label {
+  color: #888899;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+#dragon-ipa-input {
+  background-color: #0b0b0e;
+  border: 1px solid #d4af37;
+  color: #e5c158;
+  font-family: 'Charis SIL', sans-serif;
+  font-size: 1.8rem;
+  padding: 6px 16px;
+  border-radius: 4px;
+  text-align: center;
+  width: 220px;
+}
+
+.naming-ipa-bank {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+#confirm-dragon-btn {
+  background-color: #8b0000;
+  color: #ffffff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1.05rem;
+  font-family: inherit;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+#confirm-dragon-btn:hover {
+  background-color: #b22222;
+}
+
+.archive-header {
+  text-align: center;
+  color: #d4af37;
+  margin-bottom: 20px;
+}
+
+
+
+
+
+/* Header Bar */
+.archive-header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 950px;
+  margin: 0 auto 16px auto;
+  padding: 12px 20px;
+  background-color: #141418;
+  border: 1px solid #2a2a34;
+  border-radius: 6px;
+}
+
+.status-tag {
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  color: #8b0000;
+  background-color: #2b1212;
+  padding: 2px 6px;
+  border-radius: 3px;
+  border: 1px solid #5a1e1e;
+}
+
+.archive-nav-btn {
+  background-color: #262632;
+  color: #d4af37; /* Parchment Gold */
+  border: 1px solid #d4af37;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.archive-nav-btn:hover {
+  background-color: #8b0000;
+  color: #ffffff;
+  border-color: #8b0000;
+}
+
+/* Game Workspace Layout */
+.game-workspace {
+  max-width: 950px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 16px;
+}
+
+/* Dragon Portrait Card */
+.dragon-portrait-card {
+  background-color: #16161a;
+  border: 1px solid #2a2a32;
+  border-radius: 6px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.portrait-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 2px solid #d4af37;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #0b0b0e;
+  box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+}
+
+.portrait-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.specimen-controls {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.specimen-hint {
+  font-size: 0.75rem;
+  color: #888899;
+  margin-bottom: 10px;
+}
+
+.audio-trigger-btn {
+  width: 100%;
+  background-color: #8b0000;
+  color: #ffffff;
+  border: none;
+  padding: 10px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.audio-trigger-btn:hover {
+  background-color: #a50000;
+}
+
+
+
+/* Grimoire Modal Overlay */
+.grimoire-content {
+  background-color: #18181e;
+  border: 2px solid #d4af37; /* Parchment Gold */
+  border-radius: 8px;
+  width: 90%;
+  max-width: 600px;
+  padding: 24px;
+  color: #d0d0d0;
+  box-shadow: 0 0 35px rgba(0, 0, 0, 0.9);
+}
+
+.grimoire-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333340;
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.grimoire-header h2 {
+  font-size: 1.15rem;
+  color: #d4af37;
+  font-family: 'Cinzel', 'MedievalSharp', serif;
+  margin: 0;
+}
+
+.grimoire-body h3 {
+  color: #c0c0d0;
+  font-size: 0.95rem;
+  margin-top: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+
