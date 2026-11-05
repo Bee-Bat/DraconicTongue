@@ -1,6 +1,6 @@
 <head>
   <meta charset="UTF-8">
-  <title>Dragon Tongue Fieldwork</title>
+  <title>Draconic Tongue Fieldwork</title>
 
   <!-- Google Fonts: Medieval & Gothic Styles -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 <div id="landing-screen" class="overlay">
   <div class="landing-content">
     <h1>The Archival Project</h1>
-    <h2>Dragon Tongue Fieldwork Simulator</h2>
+    <h2>Draconic Tongue Fieldwork Simulator</h2>
     <p class="mission-brief">
       Welcome, Field Archivist. Transcribe and preserve the phonetic nuances of the ancient Draconic dialect.
     </p>
@@ -56,40 +56,164 @@
   </div>
 </div>
 
-<!-- Header Bar inside #game-screen -->
-<header class="archive-header-bar">
-  <div class="subject-info">
-    <span class="status-tag">ACTIVE SPECIMEN</span>
-    <h2 id="display-dragon-name">/χaɬ/</h2>
+
+
+<!-- MAIN GAME SCREEN -->
+<main id="game-screen" class="game-container hidden">
+
+  <!-- 1. Top Title Header -->
+  <header class="title-header-box">
+    <h1>"THE DRACONIC TONGUE"</h1>
+  </header>
+
+  <!-- 2. Middle Section: Dragon Image (Left) & Details / Stats (Right) -->
+  <section class="middle-workspace">
+    
+    <!-- Left Column: Dragon Image Display -->
+    <div class="dragon-stage-box">
+    <div class="dragon-image-container">
+      <img id="dragon-image" src="assets/sprites/hatchling_1.png" alt="Dragon Sprite">
+    </div>
+    </div>
+
+    <!-- Right Column: Name, Hints, Stats & Nav -->
+    <div class="dragon-details-box">
+      
+      <!-- Top Row: Dragon Name, Stage/Level, Vocalization Button -->
+      <div class="details-top-row">
+        <div class="dragon-identity">
+                      <!-- Header Bar inside #game-screen -->
+              <div class="subject-info">
+                <span class="status-tag">ACTIVE SPECIMEN</span>
+                <h2 id="display-dragon-name">/χaɬ/</h2>
+              </div>
+          <span id="display-dragon-stage" class="stage-tag">Stage 1: Hatchling</span>
+        </div>
+        <button id="vocal-btn" class="vocal-btn" onclick="playCurrentWordAudio()">
+          🔊 Play Vocalization
+        </button>
+      </div>
+
+      <!-- Middle Row: Dragon Thoughts / Hints -->
+      <div class="thought-box">
+        <p id="dragon-thought-text">
+          "something wet to cool the fires within..."
+        </p>
+      </div>
+
+      <!-- Bottom-Middle Row: Stats Bar (Love, Coin, Health) -->
+      <div class="stats-bar">
+        <div class="stat-item" title="Affection Level">
+          <span class="stat-icon">❤️</span>
+          <span id="stat-love-value" class="stat-val">100</span>
+        </div>
+        <div class="stat-item" title="Gold Coins">
+          <span class="stat-icon">🪙</span>
+          <span id="stat-coin-value" class="stat-val">50</span>
+        </div>
+        <div class="stat-item" title="Specimen Health">
+          <span class="stat-icon">💚</span>
+          <span id="stat-health-value" class="stat-val">100%</span>
+        </div>
+      </div>
+
+      <!-- Bottom Row: Navigation Button Cluster (Grimoire + About/Credits) -->
+      <div class="nav-cluster">
+        <button id="grimoire-btn" class="cluster-btn grimoire-btn" onclick="openGrimoire()">
+          📜 Grimoire
+        </button>
+        <div class="stacked-btns">
+          <button class="cluster-btn sub-btn" onclick="openAboutModal()">About</button>
+          <button class="cluster-btn sub-btn" onclick="openCreditsModal()">Credits</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>
+
+
+
+
+
+
+  <!-- r12a IPA Keyboard Picker Section -->
+  <div class="keyboard-section">
+    <!-- Your existing .r12a-picker-container goes here -->
   </div>
 
-  <!-- Updated Grimoire Button -->
-  <button id="grimoire-btn" class="archive-nav-btn" onclick="openGrimoire()">
-    📜 Phonetic Grimoire
-  </button>
-</header>
 
-<!-- PHONETIC GRIMOIRE MODAL -->
-<div id="grimoire-modal" class="modal-overlay hidden">
-  <div class="grimoire-content">
-    <div class="grimoire-header">
-      <h2>📜 Phonetic Grimoire & Lexicon Guide</h2>
-      <button class="close-modal-btn" onclick="closeGrimoire()">✕</button>
-    </div>
-    <div class="grimoire-body">
-      <h3>Draconic Consonant Rules</h3>
-      <p>Pay close attention to throat-heavy uvular stops (<strong>q</strong>) and lateral fricatives (<strong>ɬ</strong>). Ejectives are marked with an apostrophe modifier (<strong>ʼ</strong>).</p>
+
+<!-- FULL-SCREEN PHONETIC GRIMOIRE OVERLAY -->
+<div id="grimoire-modal" class="grimoire-fullscreen-overlay hidden">
+  <div class="grimoire-fullscreen-window">
+    
+    <header class="grimoire-fullscreen-header">
+      <div class="grimoire-title">
+        <span>📜 ARCHIVAL REFERENCE</span>
+        <h2>Phonetic Grimoire of the Draconic Dialect</h2>
+      </div>
+      <button class="close-grimoire-btn" onclick="closeGrimoire()">
+        ✕ Return to Fieldwork
+      </button>
+    </header>
+
+    <div class="grimoire-fullscreen-body">
       
-      <h3>IPA Symbol Key</h3>
-      <ul class="symbol-guide-list">
-        <li><code>χ</code> — Voiceless Uvular Fricative (Deep rasp from back of throat)</li>
-        <li><code>ɬ</code> — Voiceless Alveolar Lateral Fricative (Hissing side-tongue airflow)</li>
-        <li><code>tsʼ</code> — Ejective Affricate (Sharp burst of pressurized air)</li>
-        <li><code>qʼ</code> — Ejective Uvular Stop (Deep glottalic pop)</li>
-      </ul>
+      <!-- Section 1: Phonetic Rules -->
+      <section class="grimoire-section">
+        <h3>I. Articulation Guidelines</h3>
+        <div class="grimoire-grid-2col">
+          <div class="rule-card">
+            <h4>Throat-Heavy Uvulars</h4>
+            <p>Uvular sounds are produced deep in the vocal tract against the uvula. Distinguish voiceless stops (<code>q</code>) from deep voiceless fricatives (<code>χ</code>) and voiced throat rasps (<code>ʁ</code>).</p>
+          </div>
+          <div class="rule-card">
+            <h4>Ejectives & Glottalics</h4>
+            <p>Draconic relies heavily on non-pulmonic ejective bursts. Look for the modifier (<code>ʼ</code>) following stops or affricates, such as <code>tsʼ</code> or <code>qʼ</code>.</p>
+          </div>
+          <div class="rule-card">
+            <h4>Lateral Fricatives</h4>
+            <p>Airflow escapes along the sides of the tongue. The voiceless lateral fricative (<code>ɬ</code>) produces a characteristic sharp, hissing breath.</p>
+          </div>
+          <div class="rule-card">
+            <h4>Vowel Quantity</h4>
+            <p>Vowels marked with the triangular colon (<code>ː</code>) denote lengthened duration essential to grammatical tense.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Complete Phoneme Reference Guide -->
+      <section class="grimoire-section">
+        <h3>II. Complete Symbol Quick-Reference</h3>
+        <table class="grimoire-table">
+          <thead>
+            <tr>
+              <th>Symbol</th>
+              <th>Name / Category</th>
+              <th>Phonetic Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>χ</code></td><td>Voiceless Uvular Fricative</td><td>Deep rasp at the back of the throat</td></tr>
+            <tr><td><code>ɬ</code></td><td>Voiceless Lateral Fricative</td><td>Hissing breath expelled along side of tongue</td></tr>
+            <tr><td><code>tsʼ</code></td><td>Ejective Affricate</td><td>Sharp pressurized pop at teeth</td></tr>
+            <tr><td><code>qʼ</code></td><td>Ejective Uvular Stop</td><td>Deep pressurized glottalic burst</td></tr>
+            <tr><td><code>tɬʼ</code></td><td>Ejective Lateral Affricate</td><td>Side-tongue pressurized explosive release</td></tr>
+            <tr><td><code>ʁ</code></td><td>Voiced Uvular Fricative</td><td>Deep gargled vocal friction</td></tr>
+            <tr><td><code>ʔ</code></td><td>Glottal Stop</td><td>Sudden abrupt closure of the vocal folds</td></tr>
+          </tbody>
+        </table>
+      </section>
+
     </div>
   </div>
 </div>
+
+
+
+
 
 
 
@@ -228,4 +352,47 @@
 <!-- This must be spelled exactly like your javascript file -->
   <script src="script.js"></script>
 </body>
+
+<!-- ABOUT POPUP MODAL -->
+<div id="about-modal" class="popup-overlay hidden" onclick="handleBackdropClick(event, 'about-modal')">
+  <div class="popup-card">
+    <div class="popup-header">
+      <h2>📜 About The Archival Project</h2>
+      <button class="popup-close-x" onclick="closeAboutModal()">✕</button>
+    </div>
+    <div class="popup-body">
+      <p>
+        The <strong>Archivist Fieldwork Simulator</strong> is an immersive conlang learning environment designed to train students in International Phonetic Alphabet (IPA) transcription.
+      </p>
+      <p>
+        By observing specimen behavior and analyzing spoken audio fragments, archivists decipher and catalogue the ancient Draconic lexicon before its phonetic records are lost to history.
+      </p>
+    </div>
+    <div class="popup-footer">
+      <button class="popup-btn" onclick="closeAboutModal()">Close Record</button>
+    </div>
+  </div>
+</div>
+
+<!-- CREDITS POPUP MODAL -->
+<div id="credits-modal" class="popup-overlay hidden" onclick="handleBackdropClick(event, 'credits-modal')">
+  <div class="popup-card">
+    <div class="popup-header">
+      <h2>🐉 Archival Credits</h2>
+      <button class="popup-close-x" onclick="closeCreditsModal()">✕</button>
+    </div>
+    <div class="popup-body">
+      <ul class="credits-list">
+        <li><strong>Conlang & Curriculum:</strong> Draconic Fieldwork Pedagogy</li>
+        <li><strong>UI Layout Architecture:</strong> Inspired by Richard Ishida's (r12a) IPA Character Pickers</li>
+        <li><strong>Audio & Atmosphere:</strong> Archival Ambient Tracks 1–8</li>
+        <li><strong>Tech Stack:</strong> HTML5, CSS3 Grid/Flexbox, Vanilla JavaScript</li>
+      </ul>
+    </div>
+    <div class="popup-footer">
+      <button class="popup-btn" onclick="closeCreditsModal()">Close Credits</button>
+    </div>
+  </div>
+</div>
+
 

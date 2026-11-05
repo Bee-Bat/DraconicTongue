@@ -200,32 +200,74 @@ function clearNamingInput() {
 }
 
 // Step 2: Click "Confirm Subject" -> Save Name & Show Game Screen
+
 function confirmDragonName() {
   const inputVal = document.getElementById("dragon-ipa-input").value.trim();
-  
+
   if (inputVal.length > 0) {
     playerDragonName = inputVal;
   }
-  
-  // Update header text in the main game UI
-  document.getElementById("display-dragon-name").textContent = `/${playerDragonName}/`;
 
-  // Hide Naming Screen, Show Main Game Screen
+  // 1. Save to browser storage
+  localStorage.setItem("draconic_dragon_name", playerDragonName);
+
+  // 2. Update UI header
+  updateDragonNameDisplay();
+
+  // 3. Transition to game screen
   document.getElementById("dragon-naming-screen").classList.add("hidden");
   document.getElementById("game-screen").classList.remove("hidden");
 }
 
-
-
-
-// Grimoire Modal Handlers
-function openGrimoire() {
-  document.getElementById("grimoire-modal").classList.remove("hidden");
+function updateDragonNameDisplay() {
+  const displayEl = document.getElementById("display-dragon-name");
+  if (displayEl) {
+    displayEl.textContent = playerDragonName.startsWith('/') ? playerDragonName : `/${playerDragonName}/`;
+  }
 }
 
-function closeGrimoire() {
-  document.getElementById("grimoire-modal").classList.add("hidden");
+// Automatically load saved data when page loads
+window.addEventListener("DOMContentLoaded", () => {
+  const savedName = localStorage.getItem("draconic_dragon_name");
+
+  if (savedName) {
+    playerDragonName = savedName;
+    updateDragonNameDisplay();
+  }
+});
+
+// Comprehensive Save State Manager
+function saveGame() {
+  const gameState = {
+    dragonName: playerDragonName,
+    dragonStage: "Stage 1: Hatchling",
+    stats: dragonStats, // { love: 100, coins: 50, health: 100 }
+    currentIndex: currentIndex
+  };
+
+  localStorage.setItem("draconic_save_data", JSON.stringify(gameState));
 }
+
+function loadGame() {
+  const savedData = localStorage.getItem("draconic_save_data");
+
+  if (savedData) {
+    const gameState = JSON.parse(savedData);
+    
+    playerDragonName = gameState.dragonName;
+    dragonStats = gameState.stats;
+    currentIndex = gameState.currentIndex;
+
+    // Refresh UI elements
+    updateDragonNameDisplay();
+    updateStatsDisplay();
+    displayCurrentWord();
+  }
+}
+
+
+
+
 
 // Play Audio for Current Word Specimen
 function playCurrentWordAudio() {
@@ -234,3 +276,139 @@ function playCurrentWordAudio() {
     audio.play().catch(err => console.log("Audio play error:", err));
   }
 }
+
+
+
+const draconicArchive = [
+  { 
+    english: "Fire (Life-giving)", 
+    ipa: "χaɬ", 
+    thought: "The ancient embers still burn within the stone chamber...",
+    file: "audio/track1.mp3",
+    image: "assets/dragons/dragon1.png"
+  },
+  { 
+    english: "Shadow",             
+    ipa: "ɬuχ", 
+    thought: "Light casts only temporary illusions upon the abyss.",
+    file: "audio/track2.mp3",
+    image: "assets/dragons/dragon2.png"
+  },
+  { 
+    english: "Star",               
+    ipa: "tsʼikʼ", 
+    thought: "Needles of silver piercing through the midnight void.",
+    file: "audio/track3.mp3",
+    image: "assets/dragons/dragon3.png"
+  }
+  // ... continue for all 20 entries
+];
+
+let currentIndex = 0;
+
+// Update the portrait, thought box, and audio when changing words
+function displayCurrentWord() {
+  const word = draconicArchive[currentIndex];
+  
+  // Update thought box text
+  document.getElementById("dragon-thought-text").textContent = `"${word.thought}"`;
+  
+  // Update dragon portrait image (if image paths are set up)
+  if (word.image) {
+    document.getElementById("dragon-image").src = word.image;
+  }
+}
+
+// Fullscreen Grimoire Modal Toggles
+function openGrimoire() {
+  document.getElementById("grimoire-modal").classList.remove("hidden");
+}
+
+function closeGrimoire() {
+  document.getElementById("grimoire-modal").classList.add("hidden");
+}
+
+
+// State variables for stats
+let dragonStats = {
+  love: 100,
+  coins: 50,
+  health: 100
+};
+
+// Update UI stats on screen
+function updateStatsDisplay() {
+  document.getElementById("stat-love-value").textContent = dragonStats.love;
+  document.getElementById("stat-coin-value").textContent = dragonStats.coins;
+  document.getElementById("stat-health-value").textContent = `${dragonStats.health}%`;
+}
+
+// About & Credits Modal Handlers
+function openAboutModal() {
+  document.getElementById("about-modal").classList.remove("hidden");
+}
+
+function closeAboutModal() {
+  document.getElementById("about-modal").classList.add("hidden");
+}
+
+function openCreditsModal() {
+  document.getElementById("credits-modal").classList.remove("hidden");
+}
+
+function closeCreditsModal() {
+  document.getElementById("credits-modal").classList.add("hidden");
+}
+
+
+
+// Open/Close About Modal
+function openAboutModal() {
+  document.getElementById("about-modal").classList.remove("hidden");
+}
+
+function closeAboutModal() {
+  document.getElementById("about-modal").classList.add("hidden");
+}
+
+// Open/Close Credits Modal
+function openCreditsModal() {
+  document.getElementById("credits-modal").classList.remove("hidden");
+}
+
+function closeCreditsModal() {
+  document.getElementById("credits-modal").classList.add("hidden");
+}
+
+// Close modal automatically if user clicks dark backdrop outside the popup card
+function handleBackdropClick(event, modalId) {
+  if (event.target.id === modalId) {
+    document.getElementById(modalId).classList.add("hidden");
+  }
+}
+
+
+
+
+
+
+const hatchlingFrames = [
+  "sprites/Egg/spr_egg1.png",
+  "sprites/Egg/spr_egg2.png",
+  "sprites/Egg/spr_egg3.png",
+  "sprites/Egg/spr_egg4.png",
+  "sprites/Egg/spr_egg5.png",
+  "sprites/Egg/spr_egg6.png",
+  "sprites/Egg/spr_egg7.png",
+  "sprites/Egg/spr_egg8.png"
+];
+
+let frameIndex = 0;
+
+// Cycle frames at 8 FPS (125ms per frame)
+setInterval(() => {
+  frameIndex = (frameIndex + 1) % hatchlingFrames.length;
+  document.getElementById("dragon-image").src = hatchlingFrames[frameIndex];
+}, 125);
+
+
