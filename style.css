@@ -970,11 +970,14 @@ button {
 
 /* Container sizing for single 1:1 frame */
 #dragon-sprite {
-  width: 300px;
-  height: 300px;
+  width: 500px;
+  height: 500px;
   background-size: 800% 100%; /* 8 frames wide = 800% */
   background-repeat: no-repeat;
   background-position: 0 0;
+  /* Keeps pixel art sharp and blocky instead of blurry */
+  image-rendering: pixelated;
+  image-rendering: crisp-edges; 
 }
 
 /* 8-Frame Animation Keyframe */

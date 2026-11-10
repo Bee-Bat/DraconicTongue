@@ -392,23 +392,43 @@ function handleBackdropClick(event, modalId) {
 
 
 
-const hatchlingFrames = [
-  "sprites/Egg/spr_egg1.png",
-  "sprites/Egg/spr_egg2.png",
-  "sprites/Egg/spr_egg3.png",
-  "sprites/Egg/spr_egg4.png",
-  "sprites/Egg/spr_egg5.png",
-  "sprites/Egg/spr_egg6.png",
-  "sprites/Egg/spr_egg7.png",
-  "sprites/Egg/spr_egg8.png"
+const eggFrames = [
+  "sprites/dragon/spr_dragon00.png",
+  "sprites/dragon/spr_dragon01.png",
+  "sprites/dragon/spr_dragon02.png",
+  "sprites/dragon/spr_dragon03.png",
+  "sprites/dragon/spr_dragon04.png"
 ];
 
 let frameIndex = 0;
 
-// Cycle frames at 8 FPS (125ms per frame)
+// Cycle frames randomly at 8 FPS (125ms per frame)
 setInterval(() => {
-  frameIndex = (frameIndex + 1) % hatchlingFrames.length;
-  document.getElementById("dragon-image").src = hatchlingFrames[frameIndex];
+  const randomIndex = Math.floor(Math.random() * eggFrames.length);
+  document.getElementById("dragon-sprite").src = eggFrames[randomIndex];
 }, 125);
+
+const hatchFrames = [
+  "sprites/dragon/spr_dragon05.png",
+  "sprites/dragon/spr_dragon06.png",
+  "sprites/dragon/spr_dragon07.png"
+];
+
+const hatchlingFrames = [
+  "sprites/dragon/spr_dragon08.png",
+  "sprites/dragon/spr_dragon09.png"
+];
+
+const dragonetFrames = [
+  "sprites/dragon/spr_dragon10.png",
+  "sprites/dragon/spr_dragon11.png"
+];
+
+const dragonFrames = [
+  "sprites/dragon/spr_dragon12.png",
+  "sprites/dragon/spr_dragon13.png"
+];
+
+
 
 
