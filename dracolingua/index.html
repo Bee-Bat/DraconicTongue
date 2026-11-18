@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DracoLingua — Dragon IPA Tamagotchi</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div class="handheld-shell">
+  <div class="shell-header">
+    <div class="brand-title">🐉 DracoLingua <span class="brand-sub">IPA Companion</span></div>
+    <div class="header-actions">
+      <button class="chip-btn" id="btn-bgm" title="Toggle 8-bit draconic chiptune">🎵 Music: Off</button>
+      <button class="grimoire-btn" id="open-grimoire">📖 Grimoire (<span id="grim-count">0</span>/60)</button>
+    </div>
+  </div>
+
+  <div class="lcd-bezel">
+    <div class="lcd-screen">
+      <!-- Top Status & Evolution Progress -->
+      <div class="status-row">
+        <div class="stage-badge" id="stage-badge">STAGE 1: EGG</div>
+        <div class="progress-wrap">
+          <div class="progress-track">
+            <div class="progress-fill" id="progress-fill"></div>
+          </div>
+          <div class="progress-text" id="progress-text">0 / 15 Words</div>
+        </div>
+      </div>
+
+      <!-- Pixel Dragon Habitat & Prompt -->
+      <div class="habitat-box">
+        <div class="sprite-stage" id="sprite-stage"></div>
+
+        <div class="prompt-panel">
+          <div class="speech-bubble" id="speech-bubble">
+            Your dragon egg trembles warmly and lets out a melodic chime! Listen closely and transcribe its IPA cry.
+          </div>
+
+          <div class="audio-controls">
+            <button class="play-cry-btn" id="btn-play-cry">🔊 Hear Vocalization</button>
+            <span class="tries-pill" id="tries-pill">Attempts left: 5</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transcription Input -->
+      <div class="input-row">
+        <div class="ipa-box">
+          <span class="slash">/</span>
+          <input type="text" id="ipa-input" placeholder="Transcribe IPA..." autocomplete="off" spellcheck="false" />
+          <span class="slash">/</span>
+        </div>
+        <button class="submit-btn" id="btn-submit">✓ Transcribe</button>
+      </div>
+
+      <div class="feedback-banner" id="feedback-banner"></div>
+
+      <!-- Keyboard Controls -->
+      <div class="kb-toolbar">
+        <label class="audition-label">
+          <input type="checkbox" id="toggle-audition" checked /> Audition phoneme on key click
+        </label>
+        <div class="mini-btns">
+          <button class="mini-btn" id="btn-backspace">⌫ Backspace</button>
+          <button class="mini-btn" id="btn-clear">Clear</button>
+        </div>
+      </div>
+
+      <div class="kb-group-title">Plosives, Affricates &amp; Nasals (No Bilabials)</div>
+      <div class="key-grid" id="row-stops"></div>
+
+      <div class="kb-group-title">Fricatives &amp; Approximants</div>
+      <div class="key-grid" id="row-fricatives"></div>
+
+      <div class="kb-group-title">5 Cardinal Vowels &amp; Suprasegmentals</div>
+      <div class="key-grid" id="row-vowels"></div>
+
+      <div class="rule-footer">
+        <span id="rule-summary"></span>
+        <button class="reset-link" id="btn-reset-save" title="Wipe saved progress and restart at Stage 1">↺ Reset Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Grimoire Modal -->
+<div class="modal-backdrop" id="grimoire-modal">
+  <div class="grimoire-book">
+    <div class="grimoire-header">
+      <h2>📖 Dragon Lexicon Grimoire</h2>
+      <button class="close-modal" id="close-grimoire">✕ Close</button>
+    </div>
+    <div class="grimoire-body" id="grimoire-body"></div>
+  </div>
+</div>
+
+<script src="dictionary.js"></script>
+<script src="game.js"></script>
+</body>
+</html>
