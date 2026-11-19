@@ -1,5 +1,7 @@
 const STORAGE_KEY = "dracolingua_save_v1";
 
+// Add a transition lock flag near the top of game.js (with your other let variables)
+let isTransitioning = false;
 let currentStage = 1;
 let stageQueue = [];
 let currentWord = null;
@@ -67,8 +69,11 @@ const DRACONIC_MELODY = [
   246.94, 293.66, 329.63, 392.00, 349.23, 329.63, 293.66, 0
 ];
 
-function toggleChiptune() {
+function toggleChiptune(e) {
   const btn = document.getElementById("btn-bgm");
+  // Prevent Space/Enter from re-triggering the music button after clicking it
+  if (e && e.currentTarget) e.currentTarget.blur();
+
   if (isBgmPlaying) {
     clearInterval(bgmTimer);
     isBgmPlaying = false;
@@ -165,9 +170,22 @@ function startStage(stageNum) {
 }
 
 function loadNextWord() {
-  if (stageQueue.length === 0) {
+  isTransitioning = false;
+
+  // Rebuild queue from ANY unsolved words in the current stage so a word is never lost
+  const unsolved = DRAGON_DICTIONARY[currentStage].words.filter(
+    w => !unlockedWordIds.has(w.id)
+  );
+
+  if (unsolved.length === 0) {
     handleStageComplete();
     return;
+  }
+
+  // Keep current order if stageQueue still has valid unsolved items; otherwise refill
+  stageQueue = stageQueue.filter(w => !unlockedWordIds.has(w.id));
+  if (stageQueue.length === 0) {
+    stageQueue = [...unsolved].sort(() => Math.random() - 0.5);
   }
 
   currentWord = stageQueue[0];
@@ -183,7 +201,17 @@ function loadNextWord() {
 }
 
 function handleStageComplete() {
+  // Double-check that all 15 words in this stage are actually unlocked
+  const unsolved = DRAGON_DICTIONARY[currentStage].words.filter(
+    w => !unlockedWordIds.has(w.id)
+  );
+  if (unsolved.length > 0) {
+    loadNextWord();
+    return;
+  }
+
   if (currentStage < 4) {
+    isTransitioning = true;
     const prevName = DRAGON_DICTIONARY[currentStage].stageName;
     const nextStage = currentStage + 1;
     const nextName = DRAGON_DICTIONARY[nextStage].stageName;
@@ -199,6 +227,7 @@ function handleStageComplete() {
       startStage(nextStage);
     }, 2800);
   } else {
+    isTransitioning = false;
     spriteStageEl.classList.add("happy");
     speechBubbleEl.innerHTML = `👑 <strong>MASTER DRAGON!</strong> You transcribed all 60 words and completed the entire Dragon Grimoire!`;
     feedbackEl.textContent = "Congratulations! Open the Dragon Grimoire to review all 60 translations.";
@@ -211,7 +240,9 @@ function normalizeIPA(str) {
 }
 
 function checkTranscription() {
-  if (!currentWord) return;
+  // Block duplicate submissions while celebrating a right answer
+  if (!currentWord || isTransitioning) return;
+
   const userClean = normalizeIPA(inputEl.value);
   const targetClean = normalizeIPA(currentWord.ipa);
 
@@ -222,6 +253,7 @@ function checkTranscription() {
   }
 
   if (userClean === targetClean) {
+    isTransitioning = true;
     unlockedWordIds.add(currentWord.id);
     stageQueue.shift();
     saveProgress();
